@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm1 
    Caption         =   "UserForm1"
-   ClientHeight    =   10104
+   ClientHeight    =   6324
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   16896
+   ClientWidth     =   13596
    OleObjectBlob   =   "grid.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 ' Importação das funções da API GDI
@@ -24,7 +25,7 @@ Private Declare PtrSafe Function MoveToEx Lib "gdi32" (ByVal hdc As LongPtr, ByV
 Private Declare PtrSafe Function LineTo Lib "gdi32" (ByVal hdc As LongPtr, ByVal x As Long, ByVal y As Long) As Long
 Private Declare PtrSafe Function GetDC Lib "user32" (ByVal hwnd As LongPtr) As LongPtr
 Private Declare PtrSafe Function ReleaseDC Lib "user32" (ByVal hwnd As LongPtr, ByVal hdc As LongPtr) As Long
-Private Declare PtrSafe Function GetCurentDC Lib "gdi32" () As Long
+Private Declare PtrSafe Function GetActiveWindow Lib "user32" () As Long
 
 
 
@@ -39,14 +40,14 @@ Private Sub UserForm_Activate()
     'Me.Show
     
        
-    hdc = GetDC(0)
+    hdc = GetDC(GetActiveWindow)
 
     ' Criar uma cor sólida (amarelo) para o retângulo
     hBrush = CreateSolidBrush(&HFFFF)
     oldBrush = SelectObject(hdc, hBrush)
 
     ' Desenhar o retângulo amarelo
-    Rectangle hdc, 0, 0, 800, 600
+    'Rectangle hdc, 0, 0, 800, 600
 
     ' Restaura o pincel antigo e libera recursos
     a = SelectObject(0, oldBrush)
@@ -68,15 +69,16 @@ Private Sub DrawGrid(hdc As LongPtr, spacing As Long, color As Long)
     oldPen = SelectObject(hdc, hPen)
 
     ' Desenhar linhas horizontais
-    For y = 0 To 600 Step spacing
+    For y = 0 To Me.Height * 10 Step spacing
         MoveToEx hdc, 0, y, ByVal 0
-        LineTo hdc, 800, y
+        LineTo hdc, Me.Width * 10, y
+        
     Next y
 
     ' Desenhar linhas verticais
-    For x = 0 To 800 Step spacing
+    For x = 0 To Me.Width * 10 Step spacing
         MoveToEx hdc, x, 0, ByVal 0
-        LineTo hdc, x, 600
+        LineTo hdc, x, Me.Height * 10
     Next x
 
     ' Restaurar o pincel antigo e liberar recursos
