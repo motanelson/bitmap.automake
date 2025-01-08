@@ -61,5 +61,6 @@ def main():
 
 
 if __name__ == "__main__":
+    print("\033c\033[43;30m\n")
     main()
 
