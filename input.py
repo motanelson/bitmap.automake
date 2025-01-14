@@ -29,7 +29,12 @@ print("job id  ? ")
 job_id =int(input(""))
 print("job disignation  ? ")
 job_disignation=input("")
-s=str(parsed_date)+","+str(parsed_date2)+","+str(parsed_date3)+","+str(job_id)+","+job_disignation+"\n"
+print("worker id  ? ")
+worker_id =int(input(""))
+print("price  ? ")
+price =float(input(""))
+total=(parsed_date3.total_seconds()/60/60)*price
+s=str(parsed_date)+","+str(parsed_date2)+","+str(parsed_date3)+","+str(job_id)+","+job_disignation+","+str(worker_id)+","+str(price)+","+str(total)+"\n"
 f1=open("registry.csv","a")
 f1.write(s)
 f1.close()
