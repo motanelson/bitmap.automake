@@ -1,2 +1,2 @@
 @cd .\uploads\%1
-@dotnet run
+@dotnet build

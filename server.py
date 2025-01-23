@@ -67,16 +67,24 @@ def upload_file():
 
     # Executar build.sh com o contador como argumento
     try:
-        #subprocess.run(['starts.cmd'], check=True)  # Executa o script starts.sh
-
+        subprocess.run(['starts.cmd',str(file_counter)], check=True)  # Executa o script starts.sh
         result = subprocess.run(
-            ['build.cmd', str(file_counter)],
+            ['makes.cmd', str(file_counter)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             cwd=os.getcwd()
         )
-        
+        if result.stderr.find("err")<0:
+            result = subprocess.run(
+                ['build.cmd', str(file_counter)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                cwd=os.getcwd()
+            )
+        subprocess.run(['ends.cmd',str(file_counter)], check=True)  # Executa o script starts.sh
+
         # Incrementar o contador
         file_counter += 1
 
