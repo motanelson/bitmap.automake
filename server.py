@@ -37,6 +37,56 @@ HTML_TEMPLATE = '''
 </body>
 </html>
 '''
+HTML_Dowload = '''
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C Compiler Server</title>
+    <style>
+        body {
+            background-color: yellow;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Download a CS File</h1>
+    <a href="$file.exe">exe</a><br>
+    <a href="$file.dll">dll</a><br>
+    stdio:<br>
+    $stdio<br>
+    sterror:<br>
+    $sterror:<br>
+
+</body>
+</html>
+'''
+HTML_error = '''
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C Compiler Server</title>
+    <style>
+        body {
+            background-color: yellow;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>error a CS File</h1>
+    stdio:<br>
+    $stdio<br>
+    sterror:<br>
+    $sterror:<br>
+   
+</body>
+</html>
+'''
 
 @app.route('/')
 def index():
@@ -75,7 +125,7 @@ def upload_file():
             text=True,
             cwd=os.getcwd()
         )
-        if result.stderr.find("err")<0:
+        if result.stdout.find("err")<0:
             result = subprocess.run(
                 ['build.cmd', str(file_counter)],
                 stdout=subprocess.PIPE,
@@ -83,21 +133,25 @@ def upload_file():
                 text=True,
                 cwd=os.getcwd()
             )
-        subprocess.run(['ends.cmd',str(file_counter)], check=True)  # Executa o script starts.sh
+        
+        
 
+            subprocess.run(['ends.cmd',str(file_counter)], check=True)  # Executa o script starts.sh
+            s=HTML_Dowload.replace("$stdio",result.stdout.replace("\n","<br>"))
+            s=s.replace("$sterror",result.stderr.replace("\n","<br>"))
+            s=s.replace("$file", ("/download/"+executable_name).replace(".exe",""))
+            file_counter += 1
+            return s
+        else:
+             
+             s=HTML_error.replace("$stdio",result.stdout.replace("\n","<br>"))
+             s=s.replace("$sterror",result.stderr.replace("\n","<br>"))
+             file_counter += 1
+             return s
         # Incrementar o contador
         file_counter += 1
 
-        # Gravar o executável temporário
-        if 0==0:
-            return jsonify({
-                'stdout': result.stdout,
-                'stderr': result.stderr,
-                'download_url': f'/download/{executable_name}'
-            })
-        else:
-            return jsonify({'error': 'Compilation failed', 'stderr': result.stderr, 'stdout': result.stdout}), 400
-
+                
     except subprocess.CalledProcessError as e:
         return jsonify({'error': 'Script execution failed', 'details': str(e)}), 500
 
