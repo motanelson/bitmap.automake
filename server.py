@@ -125,7 +125,7 @@ def upload_file():
             text=True,
             cwd=os.getcwd()
         )
-        if result.stdout.find("err")<0:
+        if result.stdout.find("err")<0 and result.stderr.find("err")<0:
             result = subprocess.run(
                 ['build.cmd', str(file_counters)],
                 stdout=subprocess.PIPE,
