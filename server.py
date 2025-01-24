@@ -89,14 +89,14 @@ def upload_file():
         file_counter += 1
 
         # Gravar o executável temporário
-        if os.path.exists(executable_path):
+        if 0==0:
             return jsonify({
                 'stdout': result.stdout,
                 'stderr': result.stderr,
                 'download_url': f'/download/{executable_name}'
             })
         else:
-            return jsonify({'error': 'Compilation failed', 'stderr': result.stderr}), 400
+            return jsonify({'error': 'Compilation failed', 'stderr': result.stderr, 'stdout': result.stdout}), 400
 
     except subprocess.CalledProcessError as e:
         return jsonify({'error': 'Script execution failed', 'details': str(e)}), 500
