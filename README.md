@@ -1,1 +1,1 @@
- free basic guess game
+ command line editor mini editor
