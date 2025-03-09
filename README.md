@@ -1,1 +1,1 @@
- command line editor mini editor
+ command line math simulator complex math
