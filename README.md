@@ -1,1 +1,1 @@
-android lotary
+bitmap maker, makes bitmap 
