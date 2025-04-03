@@ -1,2 +1,2 @@
 bitmap maker, makes bitmap 
-make you blockchain
+make you blockchain example
