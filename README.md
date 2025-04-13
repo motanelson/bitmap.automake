@@ -1,2 +1,1 @@
-bitmap maker, makes bitmap 
-make you blockchain example
+port on 80 server http
