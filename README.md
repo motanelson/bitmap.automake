@@ -1,1 +1,1 @@
-port on 80 server http
+port on 8080 server http
